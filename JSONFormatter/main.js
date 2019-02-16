@@ -7,7 +7,7 @@ const DEFAULT_INDENT_SPACE_SIZE = 2;
 const MIN_INDENT_SPACE_SIZE = 0;
 const MAX_INDENT_SPACE_SIZE = 100;
 const FormatError = {
-    empty: "INPUTが空です",
+    empty: "入力が空です",
     parseError: "JSONの形式が正しくありません",
     unknown: "不明なエラーです"
 };
