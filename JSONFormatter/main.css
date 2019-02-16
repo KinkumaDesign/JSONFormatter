@@ -52,7 +52,9 @@ table {
  */
 
 body{
-    font-family: Arial, Helvetica, sans-serif;
+    /*font-family: Arial, Helvetica, sans-serif;*/
+    font-family: "Hiragino Kaku Gothic ProN","メイリオ", sans-serif;
+    color: #111;
 }
 .wrapper{
     width: 950px;
@@ -80,6 +82,8 @@ textarea{
     box-sizing: border-box;
     padding: 12px;
     line-height: 140%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
     /*background: #222;*/
     /*color: #fff;*/
 }
@@ -89,11 +93,11 @@ textarea{
     background: #eaeaea;
     text-align: center;
     padding-top: 14px;
-    font-size:16px;
     box-sizing: border-box;
     cursor: pointer;
     font-size:14px;
-    /* margin-left: auto; */
+    border-radius: 3px;
+    user-select: none;
 }
 .simple-button:hover{
     background: #eeeeee;
@@ -108,15 +112,44 @@ textarea{
     display: flex;
 }
 .indent-input-area{
-    margin-right: 30px;
-    padding-top:10px;
+    margin-right: 50px;
     font-size: 14px;
+    display: flex;
 }
-.indent-input-area input[type="number"]{
-    width:60px;
+.indent-input-area .label{
+    display: inline-block;
+    margin-right: 12px;
+    padding-top: 15px;
+}
+.numstepper{
+    width:50px;
     text-align: right;
     font-size: 14px;
-    padding:4px 8px;
+    padding:8px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.indent-up-down-button-container{
+    margin-left: 5px;
+}
+.numstepper-up-down-button{
+    color: #777;
+    border: 1px solid #ccc;
+    font-size:12px;
+    text-align: center;
+    width:20px;
+    height:20px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 3px;
+    padding-top: 4px;
+    user-select: none;
+}
+.numstepper-up-down-button:hover{
+    background: #eeeeee;
+}
+.numstepper-up-down-button:active{
+    background: #cccccc;
 }
 #clear_button{
     margin-right: 30px;
@@ -131,7 +164,7 @@ textarea{
 .toast-label{
     opacity: 0;
     transition: opacity 0.3s ease;
-    padding-top:22px;
+    padding-top:14px;
     font-size: 14px;
 }
 
