@@ -167,8 +167,9 @@ textarea{
     padding-top:14px;
     font-size: 14px;
 }
-
-
-.output-area textarea{
+#output_json_textarea{
     height:600px;
+}
+#output_json_textarea.error{
+    color:#ff0000;
 }

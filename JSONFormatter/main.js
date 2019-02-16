@@ -6,6 +6,12 @@ let numStepperUpButton, numStepperDownButton;
 const DEFAULT_INDENT_SPACE_SIZE = 2;
 const MIN_INDENT_SPACE_SIZE = 0;
 const MAX_INDENT_SPACE_SIZE = 100;
+const FormatError = {
+    empty: "INPUTが空です",
+    parseError: "JSONの形式が正しくありません",
+    unknown: "不明なエラーです"
+};
+
 
 function setUIReferences() {
     formatButton = document.getElementById('format_button');
@@ -21,10 +27,7 @@ function setUIReferences() {
 
 function registerEvents() {
     formatButton.addEventListener('click', function(){
-        const text = formatInputJSON();
-        if(text !== null){
-            setOutputText(text);
-        }
+        onFormatButtonClick();
     });
 
     clearButton.addEventListener('click', function(){
@@ -59,20 +62,37 @@ function registerEvents() {
     });
 }
 
+function onFormatButtonClick() {
+    const result = formatInputJSON();
+    if(result.error){
+        setOutputTextAreaStateToHasError();
+        setOutputText(result.error);
+        return;
+    }else if(!result.text){
+        setOutputTextAreaStateToHasError();
+        setOutputText(FormatError.unknown);
+        return;
+    }
+    setOutputTextAreaStateToDefault();
+    setOutputText(result.text);
+}
+
 function formatInputJSON() {
+    var result = {};
     const inputText = inputTextArea.value.trim();
     if(inputText === ""){
-        return null;
+        result.error = FormatError.empty;
+        return result;
     }
     const indent = getIndentNumInputValue();
-    let formattedText;
     try{
-        formattedText = JSON.stringify(JSON.parse(inputText), null, indent);
+        result.text = JSON.stringify(JSON.parse(inputText), null, indent);
     }catch(error){
-        console.error(error);
-        return null;
+        //console.log(error);
+        result.error = FormatError.parseError;
+        return result;
     }
-    return formattedText;
+    return result;
 }
 
 function setOutputText(text) {
@@ -123,6 +143,18 @@ function fadeOut(elem, callback){
             callback();
         }
     }, 0.5 * 1000);
+}
+
+function setOutputTextAreaStateToHasError(){
+    setClassName(outputTextArea, 'error');
+}
+
+function setOutputTextAreaStateToDefault(){
+    setClassName(outputTextArea, '');
+}
+
+function setClassName(elem, className){
+    elem.className = className;
 }
 
 window.onload = function() {
