@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JSON Formatter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>JSON Formatter</h2>
+        <div class="input-area">
+            <textarea id="input_json_textarea"></textarea><br>
+            <div class="input-area-buttons">
+                <div class="space-input-area">
+                    space <input type="number" value="2" id="space_num" />
+                </div>
+                <div class="simple-button" id="clear_button">clear</div>
+                <div class="simple-button" id="format_button">format</div>
+                <div class="simple-button" id="copy_button">copy</div>
+                <div class="state-change-label" id="state_change_label"></div>
+            </div>
+        </div>
+        <div class="output-area">
+                <textarea id="output_json_textarea"></textarea><br>
+        </div>
+    </div>
+</body>
+</html>
