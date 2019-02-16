@@ -177,6 +177,7 @@ textarea{
 }
 #paste_button{
     margin-right: 35px;
+    visibility: hidden;
 }
 #format_button{
     width:160px;

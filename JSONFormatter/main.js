@@ -164,6 +164,16 @@ function setClassName(elem, className){
     elem.className = className;
 }
 
+function checkPasteClipboardAvailable(){
+    if(navigator.clipboard && navigator.clipboard.readText){
+        pasteButton.setAttribute('style', 'visibility: visible;');
+    }else if(window.clipboardData){
+        pasteButton.setAttribute('style', 'visibility: visible;');
+    }else{
+        pasteButton.setAttribute('style', 'visibility: hidden;');
+    }
+}
+
 function pasteClipboardTextToInputTextArea(){
     if(navigator.clipboard && navigator.clipboard.readText){
         navigator.clipboard.readText()
@@ -173,13 +183,14 @@ function pasteClipboardTextToInputTextArea(){
                 inputTextArea.value = 'クリップボードが読み込めませんでした。\n' + error;
                 //console.log(error);
             })
-    }else{
+    }else if(window.clipboardData){
         inputTextArea.value = window.clipboardData.getData('Text');
     }
 }
 
 window.onload = function() {
     setUIReferences();
+    checkPasteClipboardAvailable();
     setIndentNumInputValue(DEFAULT_INDENT_SPACE_SIZE);
     registerEvents();
 };
