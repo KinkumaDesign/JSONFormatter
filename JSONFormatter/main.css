@@ -61,11 +61,29 @@ body{
     margin-left:  auto;
     margin-right: auto;
     padding-top: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
+}
+header{
+    display: flex;
 }
 h1{
     font-size:21px;
     margin-bottom: 24px;
+    width:300px;
+}
+.help{
+    width:100px;
+    text-align: right;
+    font-size:12px;
+    margin-left: auto;
+    padding-top: 14px;
+}
+.basic-link{
+    color: #666;
+    text-decoration: none;
+}
+.basic-link:hover{
+    text-decoration: underline;
 }
 h3{
     font-size:14px;
@@ -183,7 +201,15 @@ textarea{
 }
 #output_json_textarea{
     height:600px;
+    margin-bottom: 0;
 }
 #output_json_textarea.error{
     color:#ff0000;
+}
+footer{
+    padding-top:40px;
+}
+.copyright{
+    font-size:12px;
+    color:#666;
 }
