@@ -2,6 +2,10 @@
 let formatButton, clearButton, copyButton;
 let inputTextArea, outputTextArea;
 let indentNumInput, toastLabel;
+let numStepperUpButton, numStepperDownButton;
+const DEFAULT_INDENT_SPACE_SIZE = 2;
+const MIN_INDENT_SPACE_SIZE = 0;
+const MAX_INDENT_SPACE_SIZE = 100;
 
 function setUIReferences() {
     formatButton = document.getElementById('format_button');
@@ -10,7 +14,9 @@ function setUIReferences() {
     inputTextArea = document.getElementById('input_json_textarea');
     outputTextArea = document.getElementById('output_json_textarea');
     indentNumInput = document.getElementById('indent_num_input');
-    toastLabel = document.getElementById('toast_label')
+    toastLabel = document.getElementById('toast_label');
+    numStepperUpButton = document.getElementById('numstepper_up_button');
+    numStepperDownButton = document.getElementById('numstepper_down_button');
 }
 
 function registerEvents() {
@@ -33,6 +39,24 @@ function registerEvents() {
         document.execCommand('copy');
         showToastText('コピーしました');
     });
+
+    indentNumInput.addEventListener('change', function(){
+        //文字列などが入っておかしくなることがあるので入れ直す
+        const currentNum = getIndentNumInputValue();
+        setIndentNumInputValue(currentNum);
+    });
+
+    numStepperUpButton.addEventListener('click', function(){
+        let num = getIndentNumInputValue();
+        num++;
+        setIndentNumInputValue(num);
+    });
+
+    numStepperDownButton.addEventListener('click', function(){
+        let num = getIndentNumInputValue();
+        num--;
+        setIndentNumInputValue(num);
+    });
 }
 
 function formatInputJSON() {
@@ -40,11 +64,10 @@ function formatInputJSON() {
     if(inputText === ""){
         return null;
     }
-    const spaceNumRaw = parseInt(indentNumInput.value, 10);
-    const spaceNum = isNaN(spaceNumRaw) ? 4 : spaceNumRaw;
+    const indent = getIndentNumInputValue();
     let formattedText;
     try{
-        formattedText = JSON.stringify(JSON.parse(inputText), null, spaceNum);
+        formattedText = JSON.stringify(JSON.parse(inputText), null, indent);
     }catch(error){
         console.error(error);
         return null;
@@ -68,6 +91,27 @@ function setToastLabelText(text) {
     toastLabel.textContent = text;
 }
 
+function setIndentNumInputValue(num) {
+    var validatedNum = parseInt(num, 10);
+    if(isNaN(validatedNum)){
+        validatedNum = DEFAULT_INDENT_SPACE_SIZE;
+    }
+    if(validatedNum < MIN_INDENT_SPACE_SIZE){
+        validatedNum = MIN_INDENT_SPACE_SIZE;
+    }else if(validatedNum > MAX_INDENT_SPACE_SIZE){
+        validatedNum = MAX_INDENT_SPACE_SIZE;
+    }
+    indentNumInput.value = validatedNum;
+}
+
+function getIndentNumInputValue() {
+    var validatedNum = parseInt(indentNumInput.value, 10);
+    if(isNaN(validatedNum)){
+        return DEFAULT_INDENT_SPACE_SIZE;
+    }
+    return validatedNum;
+}
+
 function fadeIn(elem){
     elem.setAttribute('style', 'opacity:1;');
 }
@@ -83,5 +127,6 @@ function fadeOut(elem, callback){
 
 window.onload = function() {
     setUIReferences();
+    setIndentNumInputValue(DEFAULT_INDENT_SPACE_SIZE);
     registerEvents();
 };
