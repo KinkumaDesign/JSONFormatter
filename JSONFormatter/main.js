@@ -25,6 +25,7 @@ function registerEvents() {
         window.getSelection().removeAllRanges();
         inputTextArea.value  = '';
         outputTextArea.value = '';
+        inputTextArea.focus();
     });
 
     copyButton.addEventListener('click', function(){
