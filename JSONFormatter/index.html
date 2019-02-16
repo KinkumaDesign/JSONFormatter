@@ -10,22 +10,41 @@
 </head>
 <body>
     <div class="wrapper">
-        <h2>JSON Formatter</h2>
+        <header>
+            <h1>JSON Formatter</h1>
+            <p class="help">
+                <a class="basic-link" href="https://github.com/KinkumaDesign/JSONFormatter" target="_blank">ヘルプ</a>
+            </p>
+        </header>
         <div class="input-area">
+            <h3>入力</h3>
             <textarea id="input_json_textarea"></textarea><br>
             <div class="input-area-buttons">
-                <div class="space-input-area">
-                    space <input type="number" value="2" id="space_num" />
+                <div class="indent-input-area">
+                    <span class="label">インデント</span>
+                    <input type="text" class="numstepper" id="indent_num_input" />
+                    <div class="indent-up-down-button-container">
+                        <div class="numstepper-up-down-button" id="numstepper_up_button">▲</div>
+                        <div class="numstepper-up-down-button" id="numstepper_down_button">▼</div>
+                    </div>
                 </div>
-                <div class="simple-button" id="clear_button">clear</div>
-                <div class="simple-button" id="format_button">format</div>
-                <div class="simple-button" id="copy_button">copy</div>
-                <div class="state-change-label" id="state_change_label"></div>
+                <div class="simple-button" id="clear_button">クリア</div>
+                <div class="simple-button" id="paste_button">ペースト</div>
+                <div class="simple-button" id="format_button">フォーマット</div>
+                <div class="simple-button" id="copy_button">コピー</div>
+                <div class="toast-label" id="toast_label"></div>
             </div>
         </div>
         <div class="output-area">
-                <textarea id="output_json_textarea"></textarea><br>
+            <h3>出力</h3>
+            <textarea id="output_json_textarea"></textarea><br>
         </div>
+        <footer>
+
+            <div class="copyright">
+                <a class="basic-link" href="http://www.kuma-de.com/" target="_blank">&copy; 2019 きんくまデザイン</a>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

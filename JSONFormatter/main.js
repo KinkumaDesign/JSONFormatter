@@ -1,64 +1,142 @@
+// UI Controls
+let formatButton, clearButton, copyButton, pasteButton;
+let inputTextArea, outputTextArea;
+let indentNumInput, toastLabel;
+let numStepperUpButton, numStepperDownButton;
+const DEFAULT_INDENT_SPACE_SIZE = 2;
+const MIN_INDENT_SPACE_SIZE = 0;
+const MAX_INDENT_SPACE_SIZE = 100;
+const FormatError = {
+    empty: "入力が空です",
+    parseError: "JSONの形式が正しくありません",
+    unknown: "不明なエラーです"
+};
+
+
+function setUIReferences() {
+    formatButton = document.getElementById('format_button');
+    clearButton = document.getElementById('clear_button');
+    pasteButton = document.getElementById('paste_button');
+    copyButton = document.getElementById('copy_button');
+    inputTextArea = document.getElementById('input_json_textarea');
+    outputTextArea = document.getElementById('output_json_textarea');
+    indentNumInput = document.getElementById('indent_num_input');
+    toastLabel = document.getElementById('toast_label');
+    numStepperUpButton = document.getElementById('numstepper_up_button');
+    numStepperDownButton = document.getElementById('numstepper_down_button');
+}
+
 function registerEvents() {
-    const formatButton = document.getElementById('format_button');
     formatButton.addEventListener('click', function(){
-        const text = formatInputJSON();
-        if(text !== null){
-            setOutputText(text);
-        }
+        onFormatButtonClick();
     });
 
-    const clearButton = document.getElementById('clear_button');
     clearButton.addEventListener('click', function(){
         window.getSelection().removeAllRanges();
-        document.getElementById('input_json_textarea').value  = '';
+        inputTextArea.value  = '';
+        outputTextArea.value = '';
+        inputTextArea.focus();
     });
 
-    const copyButton = document.getElementById('copy_button');
     copyButton.addEventListener('click', function(){
-        const outputTextArea = document.getElementById('output_json_textarea');
         outputTextArea.select();
         document.execCommand('copy');
-        toastState('Copied!');
+        showToastText('コピーしました');
     });
+
+    pasteButton.addEventListener('click', function(){
+        window.getSelection().removeAllRanges();
+        outputTextArea.value = '';
+        pasteClipboardTextToInputTextArea();
+    });
+
+    indentNumInput.addEventListener('change', function(){
+        //文字列などが入っておかしくなることがあるので入れ直す
+        const currentNum = getIndentNumInputValue();
+        setIndentNumInputValue(currentNum);
+    });
+
+    numStepperUpButton.addEventListener('click', function(){
+        let num = getIndentNumInputValue();
+        num++;
+        setIndentNumInputValue(num);
+    });
+
+    numStepperDownButton.addEventListener('click', function(){
+        let num = getIndentNumInputValue();
+        num--;
+        setIndentNumInputValue(num);
+    });
+}
+
+function onFormatButtonClick() {
+    const result = formatInputJSON();
+    if(result.error){
+        setOutputTextAreaStateToHasError();
+        setOutputText(result.error);
+        return;
+    }else if(!result.text){
+        setOutputTextAreaStateToHasError();
+        setOutputText(FormatError.unknown);
+        return;
+    }
+    setOutputTextAreaStateToDefault();
+    setOutputText(result.text);
 }
 
 function formatInputJSON() {
-    const inputText = document.getElementById('input_json_textarea').value.trim();
+    var result = {};
+    const inputText = inputTextArea.value.trim();
     if(inputText === ""){
-        return null;
+        result.error = FormatError.empty;
+        return result;
     }
-    const spaceNumRaw = parseInt(document.getElementById('space_num').value, 10);
-    const spaceNum = isNaN(spaceNumRaw) ? 4 : spaceNumRaw;
-    let formattedText;
+    const indent = getIndentNumInputValue();
     try{
-        formattedText = JSON.stringify(JSON.parse(inputText), null, spaceNum);
+        result.text = JSON.stringify(JSON.parse(inputText), null, indent);
     }catch(error){
-        console.error(error);
-        return null;
+        //console.log(error);
+        result.error = FormatError.parseError;
+        return result;
     }
-    return formattedText;
+    return result;
 }
 
 function setOutputText(text) {
-    document.getElementById('output_json_textarea').value = text;
+    outputTextArea.value = text;
 }
 
-function toastState(text){
-    const label = document.getElementById('state_change_label');
-    fadeIn(label);
-    setStateLabelText(text);
+function showToastText(text){
+    fadeIn(toastLabel);
+    setToastLabelText(text);
     setTimeout(function(){
-        fadeOut(label);
-    }, 1000);
+        fadeOut(toastLabel);
+    }, 1500);
 }
 
-function setStateLabelText(text) {
-    const label = document.getElementById('state_change_label');
-    label.textContent = text;
+function setToastLabelText(text) {
+    toastLabel.textContent = text;
 }
 
-function clearStateChangeLabel() {
-    setStateLabelText('');
+function setIndentNumInputValue(num) {
+    var validatedNum = parseInt(num, 10);
+    if(isNaN(validatedNum)){
+        validatedNum = DEFAULT_INDENT_SPACE_SIZE;
+    }
+    if(validatedNum < MIN_INDENT_SPACE_SIZE){
+        validatedNum = MIN_INDENT_SPACE_SIZE;
+    }else if(validatedNum > MAX_INDENT_SPACE_SIZE){
+        validatedNum = MAX_INDENT_SPACE_SIZE;
+    }
+    indentNumInput.value = validatedNum;
+}
+
+function getIndentNumInputValue() {
+    var validatedNum = parseInt(indentNumInput.value, 10);
+    if(isNaN(validatedNum)){
+        return DEFAULT_INDENT_SPACE_SIZE;
+    }
+    return validatedNum;
 }
 
 function fadeIn(elem){
@@ -74,6 +152,34 @@ function fadeOut(elem, callback){
     }, 0.5 * 1000);
 }
 
-window.onload = function() {
-    registerEvents();
+function setOutputTextAreaStateToHasError(){
+    setClassName(outputTextArea, 'error');
 }
+
+function setOutputTextAreaStateToDefault(){
+    setClassName(outputTextArea, '');
+}
+
+function setClassName(elem, className){
+    elem.className = className;
+}
+
+function pasteClipboardTextToInputTextArea(){
+    if(navigator.clipboard && navigator.clipboard.readText){
+        navigator.clipboard.readText()
+            .then(function(text){
+                inputTextArea.value = text;
+            }).catch(function(error){
+                inputTextArea.value = 'クリップボードが読み込めませんでした。\n' + error;
+                //console.log(error);
+            })
+    }else{
+        inputTextArea.value = window.clipboardData.getData('Text');
+    }
+}
+
+window.onload = function() {
+    setUIReferences();
+    setIndentNumInputValue(DEFAULT_INDENT_SPACE_SIZE);
+    registerEvents();
+};
