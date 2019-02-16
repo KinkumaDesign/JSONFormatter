@@ -138,7 +138,7 @@ textarea{
 .numstepper-up-down-button{
     color: #777;
     border: 1px solid #ccc;
-    font-size:12px;
+    font-size:11px;
     text-align: center;
     width:20px;
     height:20px;
@@ -161,7 +161,7 @@ textarea{
     margin-right: 35px;
 }
 #format_button{
-    width:180px;
+    width:160px;
     margin-right: 35px;
     background: #378ce3;
     color: #fff;
