@@ -61,7 +61,7 @@ function showToastText(text){
     setToastLabelText(text);
     setTimeout(function(){
         fadeOut(toastLabel);
-    }, 1000);
+    }, 1500);
 }
 
 function setToastLabelText(text) {
