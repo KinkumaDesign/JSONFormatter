@@ -1,5 +1,5 @@
 // UI Controls
-let formatButton, clearButton, copyButton;
+let formatButton, clearButton, copyButton, pasteButton;
 let inputTextArea, outputTextArea;
 let indentNumInput, toastLabel;
 let numStepperUpButton, numStepperDownButton;
@@ -16,6 +16,7 @@ const FormatError = {
 function setUIReferences() {
     formatButton = document.getElementById('format_button');
     clearButton = document.getElementById('clear_button');
+    pasteButton = document.getElementById('paste_button');
     copyButton = document.getElementById('copy_button');
     inputTextArea = document.getElementById('input_json_textarea');
     outputTextArea = document.getElementById('output_json_textarea');
@@ -41,6 +42,12 @@ function registerEvents() {
         outputTextArea.select();
         document.execCommand('copy');
         showToastText('コピーしました');
+    });
+
+    pasteButton.addEventListener('click', function(){
+        window.getSelection().removeAllRanges();
+        outputTextArea.value = '';
+        pasteClipboardTextToInputTextArea();
     });
 
     indentNumInput.addEventListener('change', function(){
@@ -155,6 +162,20 @@ function setOutputTextAreaStateToDefault(){
 
 function setClassName(elem, className){
     elem.className = className;
+}
+
+function pasteClipboardTextToInputTextArea(){
+    if(navigator.clipboard && navigator.clipboard.readText){
+        navigator.clipboard.readText()
+            .then(function(text){
+                inputTextArea.value = text;
+            }).catch(function(error){
+                inputTextArea.value = 'クリップボードが読み込めませんでした。\n' + error;
+                //console.log(error);
+            })
+    }else{
+        inputTextArea.value = window.clipboardData.getData('Text');
+    }
 }
 
 window.onload = function() {

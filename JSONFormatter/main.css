@@ -70,12 +70,15 @@ h1{
 h3{
     font-size:14px;
     margin-bottom: 8px;
+    font-weight: bold;
+    border-left: 8px solid #378ce3;
+    padding-left: 6px;
 }
 textarea{
     /*font-family: 'Courier New', Courier, monospace;*/
     font-family: Courier, monospace;
     width:100%;
-    height:250px;
+    height:200px;
     font-size:14px;
     vertical-align: bottom;
     margin-bottom: 15px;
@@ -106,13 +109,13 @@ textarea{
     background: #cccccc;
 }
 .input-area{
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 .input-area-buttons{
     display: flex;
 }
 .indent-input-area{
-    margin-right: 50px;
+    margin-right: 35px;
     font-size: 14px;
     display: flex;
 }
@@ -152,11 +155,14 @@ textarea{
     background: #cccccc;
 }
 #clear_button{
-    margin-right: 30px;
+    margin-right: 10px;
+}
+#paste_button{
+    margin-right: 35px;
 }
 #format_button{
     width:180px;
-    margin-right: 100px;
+    margin-right: 35px;
     background: #378ce3;
     color: #fff;
 }
