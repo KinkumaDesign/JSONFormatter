@@ -157,6 +157,14 @@ textarea{
 #format_button{
     width:180px;
     margin-right: 100px;
+    background: #378ce3;
+    color: #fff;
+}
+#format_button:hover{
+    background: #65abf3;
+}
+#format_button:active{
+    background: #0c66c1;
 }
 #copy_button{
     margin-right: 16px;
