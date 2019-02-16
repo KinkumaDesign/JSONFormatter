@@ -61,9 +61,13 @@ body{
     padding-top: 15px;
     padding-bottom: 15px;
 }
-h2{
+h1{
     font-size:21px;
-    margin-bottom: 15px;
+    margin-bottom: 24px;
+}
+h3{
+    font-size:14px;
+    margin-bottom: 8px;
 }
 textarea{
     /*font-family: 'Courier New', Courier, monospace;*/
@@ -76,18 +80,19 @@ textarea{
     box-sizing: border-box;
     padding: 12px;
     line-height: 140%;
-    background: #222;
-    color: #fff;
+    /*background: #222;*/
+    /*color: #fff;*/
 }
 .simple-button{
     width:100px;
     height:40px;
     background: #eaeaea;
     text-align: center;
-    padding-top: 12px;
+    padding-top: 14px;
     font-size:16px;
     box-sizing: border-box;
     cursor: pointer;
+    font-size:14px;
     /* margin-left: auto; */
 }
 .simple-button:hover{
@@ -102,31 +107,35 @@ textarea{
 .input-area-buttons{
     display: flex;
 }
-.space-input-area{
-    margin-right: 120px;
+.indent-input-area{
+    margin-right: 30px;
     padding-top:10px;
+    font-size: 14px;
+}
+.indent-input-area input[type="number"]{
+    width:60px;
+    text-align: right;
+    font-size: 14px;
+    padding:4px 8px;
 }
 #clear_button{
     margin-right: 30px;
 }
 #format_button{
-    margin-right: 30px;
+    width:180px;
+    margin-right: 100px;
 }
 #copy_button{
     margin-right: 16px;
 }
-.state-change-label{
+.toast-label{
     opacity: 0;
     transition: opacity 0.3s ease;
     padding-top:22px;
+    font-size: 14px;
 }
 
-.space-input-area input[type="number"]{
-    width:100px;
-    text-align: right;
-    font-size: 14px;
-    padding:4px 8px;
-}
+
 .output-area textarea{
     height:600px;
 }

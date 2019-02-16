@@ -1,5 +1,19 @@
+// UI Controls
+let formatButton, clearButton, copyButton;
+let inputTextArea, outputTextArea;
+let indentNumInput, toastLabel;
+
+function setUIReferences() {
+    formatButton = document.getElementById('format_button');
+    clearButton = document.getElementById('clear_button');
+    copyButton = document.getElementById('copy_button');
+    inputTextArea = document.getElementById('input_json_textarea');
+    outputTextArea = document.getElementById('output_json_textarea');
+    indentNumInput = document.getElementById('indent_num_input');
+    toastLabel = document.getElementById('toast_label')
+}
+
 function registerEvents() {
-    const formatButton = document.getElementById('format_button');
     formatButton.addEventListener('click', function(){
         const text = formatInputJSON();
         if(text !== null){
@@ -7,27 +21,25 @@ function registerEvents() {
         }
     });
 
-    const clearButton = document.getElementById('clear_button');
     clearButton.addEventListener('click', function(){
         window.getSelection().removeAllRanges();
-        document.getElementById('input_json_textarea').value  = '';
+        inputTextArea.value  = '';
+        outputTextArea.value = '';
     });
 
-    const copyButton = document.getElementById('copy_button');
     copyButton.addEventListener('click', function(){
-        const outputTextArea = document.getElementById('output_json_textarea');
         outputTextArea.select();
         document.execCommand('copy');
-        toastState('Copied!');
+        showToastText('コピーしました');
     });
 }
 
 function formatInputJSON() {
-    const inputText = document.getElementById('input_json_textarea').value.trim();
+    const inputText = inputTextArea.value.trim();
     if(inputText === ""){
         return null;
     }
-    const spaceNumRaw = parseInt(document.getElementById('space_num').value, 10);
+    const spaceNumRaw = parseInt(indentNumInput.value, 10);
     const spaceNum = isNaN(spaceNumRaw) ? 4 : spaceNumRaw;
     let formattedText;
     try{
@@ -40,25 +52,19 @@ function formatInputJSON() {
 }
 
 function setOutputText(text) {
-    document.getElementById('output_json_textarea').value = text;
+    outputTextArea.value = text;
 }
 
-function toastState(text){
-    const label = document.getElementById('state_change_label');
-    fadeIn(label);
-    setStateLabelText(text);
+function showToastText(text){
+    fadeIn(toastLabel);
+    setToastLabelText(text);
     setTimeout(function(){
-        fadeOut(label);
+        fadeOut(toastLabel);
     }, 1000);
 }
 
-function setStateLabelText(text) {
-    const label = document.getElementById('state_change_label');
-    label.textContent = text;
-}
-
-function clearStateChangeLabel() {
-    setStateLabelText('');
+function setToastLabelText(text) {
+    toastLabel.textContent = text;
 }
 
 function fadeIn(elem){
@@ -75,5 +81,6 @@ function fadeOut(elem, callback){
 }
 
 window.onload = function() {
+    setUIReferences();
     registerEvents();
-}
+};
